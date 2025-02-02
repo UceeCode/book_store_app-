@@ -1,6 +1,8 @@
+import 'package:book_store_app/common/common_widget/round_button.dart';
+import 'package:book_store_app/login/sign_up_view.dart';
 import 'package:flutter/material.dart';
-
 import '../../common/color_extenstion.dart';
+import '../../login/sign_in_view.dart';
 
 class welcomeView extends StatefulWidget {
   const welcomeView({super.key});
@@ -40,24 +42,13 @@ class _WelcomeViewState extends State<welcomeView> {
                     ),
                   ),
                   SizedBox(height: media.width * 0.28),
-                   MaterialButton(
-                     onPressed: (){},
-                       textColor:  Colors.white,
-                       color: TColor.primary,
-                       height: 50,
-                       minWidth: double.maxFinite,
-                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                     child: Text("Sign in", style: TextStyle(fontSize: 17,fontWeight: FontWeight.w500),)
-                   ),
+                   RoundButton(title: 'Sign in', onPressed: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInView()));
+                   },),
                   const SizedBox(height: 20),
-                  MaterialButton(
-                      onPressed: (){},
-                      textColor:  Colors.white,
-                      color: TColor.primary,
-                      height: 50,
-                      minWidth: double.maxFinite,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                      child: Text("Sign up", style: TextStyle(fontSize: 17,fontWeight: FontWeight.w500),)),
+                  RoundButton(title: 'Sign up', onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpView()));
+                  },),
                 ],
               ),
             ),
