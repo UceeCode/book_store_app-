@@ -1,5 +1,6 @@
 import 'package:book_store_app/common/color_extenstion.dart';
 import 'package:book_store_app/common/common_widget/round_textfield.dart';
+import 'package:book_store_app/login/forgot_password_view.dart';
 import 'package:flutter/material.dart';
 
 import '../common/common_widget/round_button.dart';
@@ -81,14 +82,20 @@ class _SignInViewState extends State<SignInView> {
                   ),
                 ),
                 const Spacer(),
-                Text(
-                  "Forgot Your Password",
-                  style: TextStyle(
-                    color: TColor.subTitle.withOpacity(0.3),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
+                TextButton(
+                    onPressed:() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordView()));
+                    },
+                  child: Text(
+                    "Forgot Your Password",
+                    style: TextStyle(
+                      color: TColor.subTitle.withOpacity(0.3),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
+
               ],
               ),
               const SizedBox(height: 15),

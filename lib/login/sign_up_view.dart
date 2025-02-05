@@ -1,3 +1,4 @@
+import 'package:book_store_app/login/help_us_view.dart';
 import 'package:flutter/material.dart';
 
 import '../common/color_extenstion.dart';
@@ -104,7 +105,11 @@ class _SigninViewState extends State<SignUpView> {
               ],
               ),
               const SizedBox(height: 15),
-              RoundLineButton(title: "Sign Up", onPressed: () {})
+              RoundLineButton(
+                  title: "Sign Up",
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HelpUsView()));
+                  })
 
             ],
           ),
