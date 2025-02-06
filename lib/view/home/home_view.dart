@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/color_extenstion.dart';
+import '../../common/common_widget/best_seller_cell.dart';
+import '../../common/common_widget/top_picks_cell.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -29,6 +31,41 @@ class _HomeViewState extends State<HomeView> {
     }
   ];
 
+  List bestArr = [
+    {
+      "name": "The Forgotten Guardians",
+      "author": "Daniel Taylor",
+      "img": "assets/img/TheForgottenGuardians.jpg",
+      "rating": 5.0
+    },
+    {
+      "name": "The End of Loneliness",
+      "author": "Benedict Wells",
+      "img": "assets/img/TheEndOfLoneliness.webp",
+      "rating": 4.0
+    },
+    {
+      "name": "No More Lies",
+      "author": "Kerry Lonsdale",
+      "img": "assets/img/NoMoreLies.jpg",
+      "rating": 3.0
+    }
+  ];
+
+  List genArr = [
+    {
+      "name": "The Forgotten Guardians",
+      "img": "assets/img/TheForgottenGuardians.jpg",
+    },
+    {
+      "name": "The End of Loneliness",
+      "img": "assets/img/TheEndOfLoneliness.webp",
+    },
+    {
+      "name": "No More Lies",
+      "img": "assets/img/NoMoreLies.jpg",
+    }
+  ];
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -66,14 +103,15 @@ class _HomeViewState extends State<HomeView> {
                       AppBar(
                         backgroundColor: Colors.transparent,
                         elevation: 0,
-                        title: const Text(
+                        title: Row(children:  const [
+                          Text(
                           "Our Top Picks",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w700),
                           ),
-                        ),
+                        ]),
                         centerTitle: false,
                         leading: Container(),
                         leadingWidth: 1,
@@ -85,64 +123,14 @@ class _HomeViewState extends State<HomeView> {
                         ],
                       ),
                       // SizedBox(height: media.width * 0.1,),
-                      Container(
+                      SizedBox(
                         width: media.width,
                         height: media.width * 0.8,
                         child: CarouselSlider.builder(
                           itemCount: topPickArr.length,
                           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
                             var iObj = topPickArr[itemIndex] as Map? ?? {};
-                            return Container(
-                              width: media.width * 0.32 ,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black38,
-                                          offset: Offset(0, 2),
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                    ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  iObj["img"].toString(),
-                                  width: media.width * 0.3,
-                                  height: media.width * 0.50,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                                  ),
-                              const SizedBox(height: 15,),
-                                  Text(
-                                    iObj["name"].toString(),
-                                    maxLines: 3,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: TColor.text,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    iObj["author"].toString(),
-                                    maxLines: 3,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: TColor.subTitle,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                            return TopPicksCell(iObj: iObj,);
                           },
                           options: CarouselOptions(
                             autoPlay: true,
@@ -153,7 +141,32 @@ class _HomeViewState extends State<HomeView> {
                             enlargeStrategy: CenterPageEnlargeStrategy.zoom ,
                           ),
                         ),
-                      )
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(children: [
+                          Text(
+                            "Bestsellers",
+                            style: TextStyle(
+                                color: TColor.text,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ]),
+                      ),
+                      SizedBox(
+                        height: media.width * 0.9,
+                        child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 8),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: bestArr.length,
+                            itemBuilder: ((context, index) {
+                  var bObj = bestArr[index] as Map? ?? {};
+
+                    return BestSellerCell( bObj: bObj,);
+                            })),
+                      ),
                     ],
                   )
                 ],
