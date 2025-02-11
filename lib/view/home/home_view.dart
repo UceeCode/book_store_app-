@@ -129,9 +129,14 @@ class _HomeViewState extends State<HomeView> {
                 itemCount: bestArr.length,
                 itemBuilder: (context, index) {
                   var bObj = bestArr[index] as Map? ?? {};
+                  List<String> prices = ['19.99', '24.99', '15.99', '30.00', '22.50']; // Example static prices
+                  var price = prices[index % prices.length]; // Wrap around prices if there are more items than prices
                   return GestureDetector(
                     onTap: () {},
-                    child: BestSellerCell(bObj: bObj),
+                    child: BestSellerCell(
+                      bObj: bObj,
+                      price: price,
+                    ),
                   );
                 },
               ),
@@ -150,7 +155,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             SizedBox(height: media.width * 0.1),
-            _buildSectionTitle("Recently Viewed"),
+            _buildSectionTitle("New Arrivals"),
             SizedBox(
               height: media.width * 0.7,
               child: ListView.builder(

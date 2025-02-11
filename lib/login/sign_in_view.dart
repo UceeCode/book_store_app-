@@ -1,6 +1,7 @@
 import 'package:book_store_app/common/color_extenstion.dart';
 import 'package:book_store_app/common/common_widget/round_textfield.dart';
 import 'package:book_store_app/login/forgot_password_view.dart';
+import 'package:book_store_app/view/main_tab/main_tab_view.dart';
 import 'package:flutter/material.dart';
 
 import '../common/common_widget/round_button.dart';
@@ -48,11 +49,6 @@ class _SignInViewState extends State<SignInView> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-               const SizedBox(height: 15),
-              RoundTextField(
-                  controller: txtCode,
-                  hintText: "Optional Group Special Code",
-              ),
               const SizedBox(height: 15),
               RoundTextField(
                   controller: txtEmail,
@@ -99,7 +95,9 @@ class _SignInViewState extends State<SignInView> {
               ],
               ),
               const SizedBox(height: 15),
-              RoundLineButton(title: "Sign in", onPressed: (){})
+              RoundLineButton(title: "Sign in", onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const MainTabView()));
+              })
 
             ],
           ),

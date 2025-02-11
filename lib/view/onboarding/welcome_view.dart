@@ -46,7 +46,7 @@ class _WelcomeViewState extends State<welcomeView> {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInView()));
                    },),
                   const SizedBox(height: 20),
-                  RoundButton(title: 'Sign up', onPressed: () {
+                  RoundButton(title: 'Create Account', onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpView()));
                   },),
                 ],

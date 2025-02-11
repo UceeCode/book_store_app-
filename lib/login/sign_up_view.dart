@@ -1,4 +1,5 @@
 import 'package:book_store_app/login/help_us_view.dart';
+import 'package:book_store_app/login/sign_in_view.dart';
 import 'package:flutter/material.dart';
 
 import '../common/color_extenstion.dart';
@@ -44,7 +45,7 @@ class _SigninViewState extends State<SignUpView> {
             // Added 'child:' before Column
             children: [
               Text(
-                "Sign Up",
+                "Create Account",
                 style: TextStyle(
                   color: TColor.text,
                   fontSize: 24,
@@ -53,25 +54,9 @@ class _SigninViewState extends State<SignUpView> {
               ),
               const SizedBox(height: 20),
               RoundTextField(
-                controller: txtFirstName,
-                hintText: "First & Last Name",
-              ),
-              const SizedBox(height: 15),
-              RoundTextField(
                 controller: txtEmail,
                 hintText: "Email",
                 keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 15),
-              RoundTextField(
-                controller: txtCode,
-                hintText: "Mobile Phone",
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 15),
-              RoundTextField(
-                controller: txtCode,
-                hintText: "Group Special Code(Optional)",
               ),
               const SizedBox(height: 15),
               RoundTextField(
@@ -106,9 +91,9 @@ class _SigninViewState extends State<SignUpView> {
               ),
               const SizedBox(height: 15),
               RoundLineButton(
-                  title: "Sign Up",
+                  title: "Create Account",
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HelpUsView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInView()));
                   })
 
             ],
