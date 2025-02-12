@@ -1,20 +1,14 @@
-import 'package:book_store_app/common/color_extenstion.dart';
 import 'package:flutter/material.dart';
 
-class OurBooksView extends StatefulWidget {
-  const OurBooksView({super.key});
+class OurBooksView extends StatelessWidget {
+  final Map<String, dynamic> book;
 
-  @override
-  State<OurBooksView> createState() => _OurBooksViewState();
-}
-
-class _OurBooksViewState extends State<OurBooksView> {
-
-  List imageArr = ["assets/img/TheEndOfLoneliness.webp","assets/img/TheEndOfLoneliness.webp","assets/img/TheEndOfLoneliness.webp"];
+  const OurBooksView({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
-    var media  = MediaQuery.of(context).size;
+    var media = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -23,10 +17,7 @@ class _OurBooksViewState extends State<OurBooksView> {
             Stack(
               alignment: Alignment.topCenter,
               children: [
-
-                Image.asset("assets/img/TheEndOfLoneliness.webp", width:  media.width, fit: BoxFit.fitWidth, ),
-
-
+                Image.asset(book['image'], width: media.width, fit: BoxFit.fitWidth),
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -40,43 +31,40 @@ class _OurBooksViewState extends State<OurBooksView> {
                     ),
                   ),
                 ),
-
-                Container(
-                  height: media.width * 0.9 ,
-
-                  alignment: Alignment.bottomLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child:  Row( children: imageArr.map((iName) {
-                      var isFirst= imageArr.first == iName;
-                      var isLast = imageArr.last == iName;
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        padding: isFirst ? const EdgeInsets.only(left: 15 ) : ( isLast ? const EdgeInsets.only(right: 15) : null ) ,
-                        child: Image.asset( iName,  height: 120 , fit: BoxFit.fitHeight, ),);
-                    } ).toList() , ),),
-                )
-
-
-
-              ],),
-
-
+              ],
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-              child: Text("""The Book Grocer online offers a broad and ever increasing range of discounted remainder and secondhand books.
-            
-            Our specialty is sourcing discounted books of amazing quality and passing on to our customers the best possible price.
-            We take our book buying very seriously indeed. We scour the globe and the best publishers and suppliers for the best bargains, but no book simply arrives in our warehouse simply because it's cheap. It has to be something we want to read ourselves and would recommend to others.
-            We like to be known as the business which sells discounted books yet looks and feels like a retail bookstore.
-            
-            We are an Australian, family-owned business. We have been buying and selling books since 2000, when the first Castlebooks store opened in Kingston, ACT.
-            
-            In 2007 we opened the first Book Grocer in Brunswick, Victoria. Book Grocers can now be found in a range of locations across Victoria, NSW, and of course, Canberra.
-            
-            Our staff also love reading and recommending books to others and we are proud of the role they play in demonstrating to our customers how good discount books can be.""", textAlign: TextAlign.center , style: TextStyle(color: TColor.subTitle, fontSize: 15),),
-            )
-
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    book['title'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Author: ${book['author']}',
+                    style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+                  ),
+                  Text(
+                    'Genre: ${book['genre']}',
+                    style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+                  ),
+                  Text(
+                    'Price: \$${book['price']}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    book['description'],
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 16, color: Colors.black87),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

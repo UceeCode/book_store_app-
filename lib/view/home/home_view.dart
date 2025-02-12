@@ -133,9 +133,43 @@ class _HomeViewState extends State<HomeView> {
                   var price = prices[index % prices.length]; // Wrap around prices if there are more items than prices
                   return GestureDetector(
                     onTap: () {},
-                    child: BestSellerCell(
-                      bObj: bObj,
-                      price: price,
+                    child: Stack(
+                      children: [
+                        BestSellerCell(
+                          bObj: bObj,
+                          price: price,
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 15,  // Shift the icon to the right
+                          child: Container(
+                            width: 30,  // Size of the circle
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,  // White background
+                              shape: BoxShape.circle,  // Circular shape
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3), // Shadow position
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 18,  // Smaller icon size
+                                icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
+                                onPressed: () {
+                                  // Handle add to cart action
+                                },
+                              ),
+                            ),
+                          ),
+                        )
+
+                      ],
                     ),
                   );
                 },
@@ -150,7 +184,41 @@ class _HomeViewState extends State<HomeView> {
                 itemCount: genreArr.length,
                 itemBuilder: (context, index) {
                   var bObj = genreArr[index] as Map? ?? {};
-                  return GenresCell(bObj: bObj, bgColor: index % 2 == 0 ? TColor.color1 : TColor.color2);
+                  return Stack(
+                    children: [
+                      GenresCell(bObj: bObj, bgColor: index % 2 == 0 ? TColor.color1 : TColor.color2),
+                      Positioned(
+                        top: 10,
+                        right: 15,  // Shift the icon to the right
+                        child: Container(
+                          width: 30,  // Size of the circle
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white,  // White background
+                            shape: BoxShape.circle,  // Circular shape
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // Shadow position
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 18,  // Smaller icon size
+                              icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
+                              onPressed: () {
+                                // Handle add to cart action
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+
+                    ],
+                  );
                 },
               ),
             ),
@@ -164,7 +232,41 @@ class _HomeViewState extends State<HomeView> {
                 itemCount: recentArr.length,
                 itemBuilder: (context, index) {
                   var bObj = recentArr[index] as Map? ?? {};
-                  return RecentCell(iObj: bObj);
+                  return Stack(
+                    children: [
+                      RecentCell(iObj: bObj),
+                      Positioned(
+                        top: 10,
+                        right: 15,  // Shift the icon to the right
+                        child: Container(
+                          width: 30,  // Size of the circle
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white,  // White background
+                            shape: BoxShape.circle,  // Circular shape
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // Shadow position
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 18,  // Smaller icon size
+                              icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
+                              onPressed: () {
+                                // Handle add to cart action
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+
+                    ],
+                  );
                 },
               ),
             ),

@@ -1,264 +1,155 @@
-import 'package:book_store_app/view/search/search_fiter_view.dart';
-import 'package:book_store_app/view/search/search_force_view.dart';
 import 'package:flutter/material.dart';
-
-import '../../common/color_extenstion.dart';
-import '../../common/common_widget/history_row.dart';
-import '../../common/common_widget/search_grid_cell.dart';
-import '../../common/extenstion.dart';
+import '../our_book/out_books_view.dart'; // Corrected import
 
 class SearchView extends StatefulWidget {
-  const SearchView({super.key});
-
   @override
-  State<SearchView> createState() => _SearchViewState();
+  _SearchViewState createState() => _SearchViewState();
 }
 
 class _SearchViewState extends State<SearchView> {
-  TextEditingController txtSearch = TextEditingController();
-  int selectTag = 0;
-  List tagsArr = [
-    "Genre",
-    "New Release",
-    "The Art",
-    "Genre1",
-    "New Release1",
-    "The Art1"
-  ];
+  TextEditingController _searchController = TextEditingController();
 
-  List searchArr = [
+  // Updated 'topPickArr' with price, popularity, and releaseDate
+  List<Map<String, dynamic>> topPickArr = [
     {
-      "name": "Biography",
-      "img": "assets/img/NoMoreLies.jpg",
+      "name": "The Forgotten Guardians",
+      "author": "Daniel Taylor",
+      "img": "assets/img/TheForgottenGuardians.jpg",
+      "price": 12.99,
+      "popularity": 4.8,
+      "releaseDate": DateTime(2020, 5, 15),
     },
     {
-      "name": "Business",
-      "img": "assets/img/NoMoreLies.jpg",
+      "name": "The End of Loneliness",
+      "author": "Benedict Wells",
+      "img": "assets/img/TheEndOfLoneliness.webp",
+      "price": 9.99,
+      "popularity": 4.5,
+      "releaseDate": DateTime(2016, 7, 10),
     },
     {
-      "name": "Children",
+      "name": "No More Lies",
+      "author": "Kerry Lonsdale",
       "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Cookery",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Fiction",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Graphic Novels",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Biography",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Business",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Children",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Cookery",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Fiction",
-      "img": "assets/img/NoMoreLies.jpg",
-    },
-    {
-      "name": "Graphic Novels",
-      "img": "assets/img/NoMoreLies.jpg",
+      "price": 10.99,
+      "popularity": 4.7,
+      "releaseDate": DateTime(2021, 8, 3),
     }
   ];
 
-  List sResultArr = [
-    {
-      "name": "The Heart of Hell",
-      "img": "assets/img/NoMoreLies.jpg",
-      "author": "Mitch Weiss",
-      "description":
-      "The untold story of courage and sacrifice in the shadow of Iwo Jima.",
-      "rate": 5.0
-    },
-    {
-      "name": "Adrennes 1944",
-      "img": "assets/img/NoMoreLies.jpg",
-      "author": "Antony Beevor",
-      "description":
-      "#1 international bestseller and award winning history book.",
-      "rate": 4.0
-    },
-    {
-      "name": "War on the Gothic Line",
-      "img": "assets/img/NoMoreLies.jpg",
-      "author": "Christian Jennings",
-      "description":
-      "Through the eyes of thirteen men and women from seven different nations",
-      "rate": 3.0
-    }
-  ];
+  List<Map<String, dynamic>> filteredBooks = [];
+  String selectedFilter = 'None';
+
+  @override
+  void initState() {
+    super.initState();
+    filteredBooks = List.from(topPickArr);
+  }
+
+  void filterBooks(String query) {
+    setState(() {
+      filteredBooks = topPickArr.where((book) {
+        return book['name'].toLowerCase().contains(query.toLowerCase()) ||
+            book['author'].toLowerCase().contains(query.toLowerCase());
+      }).toList();
+      applySorting();
+    });
+  }
+
+  void applySorting() {
+    setState(() {
+      if (selectedFilter == 'Price') {
+        filteredBooks.sort((a, b) => a['price'].compareTo(b['price']));
+      } else if (selectedFilter == 'Popularity') {
+        filteredBooks.sort((a, b) => b['popularity'].compareTo(a['popularity']));
+      } else if (selectedFilter == 'Release Date') {
+        filteredBooks.sort((a, b) => b['releaseDate'].compareTo(a['releaseDate']));
+      } else if (selectedFilter == 'Name') {
+        filteredBooks.sort((a, b) => a['name'].compareTo(b['name']));
+      }
+    });
+  }
+
+  void navigateToBookDetail(Map<String, dynamic> book) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OurBooksView(book: book),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: TColor.textbox,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: TextField(
-                    controller: txtSearch,
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchForceView(
-                            didSearch: (sText) {
-                              txtSearch.text = sText;
-                              if (mounted) {
-                                setState(() {});
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                      endEditing();
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 8),
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      prefixIcon: Icon(Icons.search, color: TColor.text),
-                      suffixIcon: SizedBox(
-                        width: 40,
-                        child: IconButton(
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SearchFilterView(
-                                    didFilter: (fObj) {
-
-                                      if (mounted) {
-                                        setState(() {});
-                                      }
-                                    },
-                                  ),
-                                ),
-                              );
-                              endEditing();
-                            },
-                            icon: Icon(Icons.tune, color: TColor.text)),
-                      ),
-                      hintText: "Search Books. Authors. or ISBN",
-                      labelStyle: const TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              if (txtSearch.text.isNotEmpty)
-                const SizedBox(
-                  width: 8,
-                ),
-              if (txtSearch.text.isNotEmpty)
-                TextButton(
-                    onPressed: () {
-                      txtSearch.text = "";
-                      setState(() {});
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        color: TColor.text,
-                        fontSize: 17,
-                      ),
-                    ))
-            ],
-          ),
-        ),
-        body: Column(
+      appBar: AppBar(title: Text('Search Books')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: tagsArr.map((tagName) {
-                    var index = tagsArr.indexOf(tagName);
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectTag = index;
-                          });
-                        },
-                        child: Text(
-                          tagName,
-                          style: TextStyle(
-                              color: selectTag == index
-                                  ? TColor.text
-                                  : TColor.subTitle,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+            // Search bar
+            TextField(
+              controller: _searchController,
+              onChanged: filterBooks,
+              decoration: InputDecoration(
+                hintText: 'Search by title or author',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
-            if (txtSearch.text.isEmpty)
-              Expanded(
-                child: GridView.builder(
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.75,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15),
-                  itemCount: searchArr.length,
-                  itemBuilder: (context, index) {
-                    var sObj = searchArr[index] as Map? ?? {};
-                    return SearchGridCell(
-                      sObj: sObj,
-                      index: index,
-                    );
-                  },
-                ),
+            SizedBox(height: 10),
+
+            // Dropdown for sorting options aligned to the left
+            Align(
+              alignment: Alignment.centerLeft,
+              child: DropdownButton<String>(
+                value: selectedFilter,
+                items: ['None', 'Name', 'Price', 'Popularity', 'Release Date']
+                    .map((filter) => DropdownMenuItem(
+                  child: Text(filter),
+                  value: filter,
+                ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedFilter = value!;
+                    applySorting();
+                  });
+                },
               ),
-            if (txtSearch.text.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  padding:
-                  const EdgeInsets.symmetric( horizontal: 15),
-                  itemCount: sResultArr.length,
-                  itemBuilder: (context, index) {
-                    var sObj = sResultArr[index] as Map? ?? {};
-                    return HistoryRow(
-                      sObj: sObj,
-                    );
-                  },),)
+            ),
+            SizedBox(height: 10),
+
+            // ListView for displaying filtered and sorted books
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredBooks.length,
+                itemBuilder: (context, index) {
+                  var book = filteredBooks[index];
+                  return Card(
+                    child: ListTile(
+                      leading: Image.asset(book['img'], width: 50, height: 50, fit: BoxFit.cover),
+                      title: Text(book['name']),
+                      subtitle: Text('${book['author']}'),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('\$${book['price']}'),
+                          Text('Rating: ${book['popularity']}'),
+                        ],
+                      ),
+                      onTap: () => navigateToBookDetail(book),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

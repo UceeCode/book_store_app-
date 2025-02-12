@@ -16,13 +16,13 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   List<Map<String, String>> pageArr = [
     {
-      "title": "Discounted\nSecondhand Books",
-      "sub_title": "Used and near new secondhand books at great prices.",
+      "title": "WELCOME TO MY BOOK STORE",
+      "sub_title": "Used and new secondhand books at great prices.",
       "img": "assets/img/on_1.png"
     },
     {
-      "title": "20 Book Grocers\nNationally",
-      "sub_title": "We've successfully opened 20 stores across Australia.",
+      "title": "20 Book Stores Nationally",
+      "sub_title": "We've successfully opened 20 stores across Nigeria.",
       "img": "assets/img/on_2.png"
     },
     {
@@ -81,7 +81,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: TColor.primary,
-                            fontSize: 30,
+                            fontSize: 27,
                             fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 15),
