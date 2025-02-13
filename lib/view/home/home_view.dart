@@ -9,6 +9,9 @@ import '../../common/common_widget/round_button.dart';
 import '../../common/common_widget/round_textfield.dart';
 import '../../common/common_widget/top_picks_cell.dart';
 import '../../login/sign_up_view.dart';
+import '../../models/Wish_list_item.dart';
+import '../../models/books.dart';
+import '../Wish/Wish_list_view.dart';
 import '../main_tab/main_tab_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -167,8 +170,32 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                           ),
+                        ),
+                        Positioned(
+                          top: 10,
+                          left: 15, // Place heart button next to cart button
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: HeartButton(
+                                bookData: topPickArr[0], // Pass the first item of the array (or any item you'd like)
+                              ),
+                          ),
+                        ),
                         )
-
                       ],
                     ),
                   );
@@ -323,6 +350,46 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+    );
+  }
+}
+class HeartButton extends StatefulWidget {
+  final Map<String, dynamic> bookData; // Accept the map data
+
+  HeartButton({required this.bookData});
+
+  @override
+  _HeartButtonState createState() => _HeartButtonState();
+}
+
+class _HeartButtonState extends State<HeartButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      iconSize: 18,
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border, // Filled heart when isFavorite is true
+        color: Colors.red,
+      ),
+      onPressed: () {
+        setState(() {
+          isFavorite = !isFavorite; // Toggle the state of the heart
+          if (isFavorite) {
+            // Add to wishlist
+            wishlistItems.add(widget.bookData as WishlistItem); // Assuming wishlistItems is a list of maps
+          }
+        });
+
+        // Optionally, navigate to wishlist page or show confirmation
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WishlistPage(wishlistItems: wishlistItems),
+          ),
+        );
+      },
     );
   }
 }

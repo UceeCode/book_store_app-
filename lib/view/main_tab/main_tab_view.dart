@@ -4,7 +4,8 @@ import 'package:book_store_app/view/our_book/out_books_view.dart'; // Corrected 
 import 'package:book_store_app/view/search/search_view.dart';
 
 import '../../account/account_view.dart';
-import '../../common/color_extenstion.dart'; // Corrected import
+import '../../common/color_extenstion.dart';
+import '../Wish/Wish_list_view.dart'; // Corrected import
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -159,7 +160,7 @@ class _MainTabViewState extends State<MainTabView> with TickerProviderStateMixin
         children: [
           const HomeView(),
           SearchView(),
-          Container(),
+          WishlistPage(wishlistItems: [],),
           Container(),
         ],
       ),
