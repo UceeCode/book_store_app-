@@ -1,11 +1,14 @@
+import 'package:book_store_app/Review/review.dart';
+import 'package:book_store_app/view/cart/cart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:book_store_app/view/home/home_view.dart';
 import 'package:book_store_app/view/our_book/out_books_view.dart'; // Corrected import
 import 'package:book_store_app/view/search/search_view.dart';
-
+import '../../Review/write_review_page.dart';
 import '../../account/account_view.dart';
 import '../../common/color_extenstion.dart';
-import '../Wish/Wish_list_view.dart'; // Corrected import
+import '../Wish/Wish_list_view.dart';
+
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -21,23 +24,15 @@ class _MainTabViewState extends State<MainTabView> with TickerProviderStateMixin
 
   @override
   void initState() {
-    controller = TabController(length: 4, vsync: this);
+    controller = TabController(length: 5, vsync: this);
     super.initState();
   }
 
   int selectMenu = 0;
-
   List menuArr = [
-    {"name": "Home", "icon": Icons.home},
-    {"name": "Our Books", "icon": Icons.book},
-    {"name": "Our Stores", "icon": Icons.storefront},
-    {"name": "Careers", "icon": Icons.business_center},
-    {"name": "Sell With Us", "icon": Icons.attach_money},
-    {"name": "Newsletter", "icon": Icons.newspaper},
-    {"name": "Pop-up Leasing", "icon": Icons.open_in_new},
-    {"name": "Account", "icon": Icons.account_circle}
+    {"name": "Home", "icon": Icons.home, "route": "/home"}, // Add route
+    {"name": "Review", "icon": Icons.reviews, "route": "/review"}, // Add route (if you have a ReviewView)
   ];
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -77,18 +72,15 @@ class _MainTabViewState extends State<MainTabView> with TickerProviderStateMixin
                       child: GestureDetector(
                         onTap: () {
                           if (index == 1) {
-                            // Navigate to OurBooksView with a dummy book or real data
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => OurBooksView(book: {}), // Pass a valid book
-                              ),
+                              MaterialPageRoute(builder: (context) => WriteReviewPage()),
                             );
                             sideMenuScaffoldKey.currentState?.closeEndDrawer();
-                          } else if (index == 7) {
+                          } if (index == 2) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AccountView()),
+                              MaterialPageRoute(builder: (context) => AccountView()),
                             );
                             sideMenuScaffoldKey.currentState?.closeEndDrawer();
                           }
@@ -160,37 +152,45 @@ class _MainTabViewState extends State<MainTabView> with TickerProviderStateMixin
         children: [
           const HomeView(),
           SearchView(),
-          WishlistPage(wishlistItems: [],),
-          Container(),
+          WishlistPage(initialItems: []),
+          CartView(),
+          AccountView(),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: TColor.primary,
-        child: TabBar(
-          controller: controller,
-          indicatorColor: Colors.transparent,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white54,
-          tabs: const [
-            Tab(
-              icon: Icon(Icons.home),
-              text: "Home",
-            ),
-            Tab(
-              icon: Icon(Icons.search),
-              text: "Search",
-            ),
-            Tab(
-              icon: Icon(Icons.menu),
-              text: "WishList",
-            ),
-            Tab(
-              icon: Icon(Icons.shopping_bag),
-              text: "Cart",
-            ),
-          ],
-        ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: controller?.index ?? 0,
+        onTap: (index) {
+          controller?.animateTo(index);
+        },
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white54,
+        backgroundColor: TColor.primary,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: "WishList",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: "Cart",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: "Account",
+          ),
+        ],
       ),
+
     );
   }
 }

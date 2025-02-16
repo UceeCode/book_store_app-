@@ -1,6 +1,8 @@
 import 'package:book_store_app/common/common_widget/genres_cell.dart';
+import 'package:book_store_app/models/cart_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/color_extenstion.dart';
 import '../../common/common_widget/best_seller_cell.dart';
@@ -9,10 +11,10 @@ import '../../common/common_widget/round_button.dart';
 import '../../common/common_widget/round_textfield.dart';
 import '../../common/common_widget/top_picks_cell.dart';
 import '../../login/sign_up_view.dart';
-import '../../models/Wish_list_item.dart';
-import '../../models/books.dart';
-import '../Wish/Wish_list_view.dart';
+import '../../providers/cart_provider.dart';
 import '../main_tab/main_tab_view.dart';
+
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -28,25 +30,59 @@ class _HomeViewState extends State<HomeView> {
   List topPickArr = [
     {"name": "The Forgotten Guardians", "author": "Daniel Taylor", "img": "assets/img/TheForgottenGuardians.jpg"},
     {"name": "The End of Loneliness", "author": "Benedict Wells", "img": "assets/img/TheEndOfLoneliness.webp"},
-    {"name": "No More Lies", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg"}
+    {"name": "No More Lies", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg"},
+    {"name": "Atomic Habit", "author": "James Clear", "img": "assets/img/AtomicHabit.png"},
+    {"name": "The Night Circus", "author": "Erin Morgenstern", "img": "assets/img/TheNightCircus.jpg"},
+    {"name": "Project Hail Mary", "author": "Andy Weir", "img": "assets/img/ProjectHailMary.jpg"},
+    {"name": "The Alchemist", "author": "Paulo Coelho", "img": "assets/img/TheAlchemist.webp"},
+    {"name": "Sapiens: A Brief History of Humankind", "author": "Yuval Noah Harari", "img":"assets/img/sapiens.jpg"},
+    {"name": "The Name of the Wind", "author": "Patrick Rothfuss", "img": "assets/img/TheNameOfTheWind.jpg"},
+    {"name": "The Power Of Now", "author": "Eckhart Tolle", "img": "assets/img/ThePowerOfNow.jpg"},
+    {"name": "Deep Work", "author": "Cal Newport", "img": "assets/img/DeepWork.jpg"},
+    {"name": "Circe", "author": "Madeline Miller", "img": "assets/img/Circe.jpg"},
   ];
 
   List bestArr = [
-    {"name": "The Forgotten Guardians", "author": "Daniel Taylor", "img": "assets/img/TheForgottenGuardians.jpg", "rating": 5.0},
-    {"name": "The End of Loneliness", "author": "Benedict Wells", "img": "assets/img/TheEndOfLoneliness.webp", "rating": 4.0},
-    {"name": "No More Lies", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg", "rating": 3.0}
+    {"name": "The Forgotten Guardians", "author": "Daniel Taylor", "img": "assets/img/TheForgottenGuardians.jpg"},
+    {"name": "The End of Loneliness", "author": "Benedict Wells", "img": "assets/img/TheEndOfLoneliness.webp"},
+    {"name": "No More Lies", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg"},
+    {"name": "Atomic Habit", "author": "James Clear", "img": "assets/img/AtomicHabit.png"},
+    {"name": "The Night Circus", "author": "Erin Morgenstern", "img": "assets/img/TheNightCircus.jpg"},
+    {"name": "Project Hail Mary", "author": "Andy Weir", "img": "assets/img/ProjectHailMary.jpg"},
+    {"name": "The Alchemist", "author": "Paulo Coelho", "img": "assets/img/TheAlchemist.webp"},
+    {"name": "Sapiens: A Brief History of Humankind", "author": "Yuval Noah Harari", "img":"assets/img/sapiens.jpg"},
+    {"name": "The Name of the Wind", "author": "Patrick Rothfuss", "img": "assets/img/TheNameOfTheWind.jpg"},
+    {"name": "The Power Of Now", "author": "Eckhart Tolle", "img": "assets/img/ThePowerOfNow.jpg"},
+    {"name": "Deep Work", "author": "Cal Newport", "img": "assets/img/DeepWork.jpg"},
+    {"name": "Circe", "author": "Madeline Miller", "img": "assets/img/Circe.jpg"},
   ];
 
   List genreArr = [
-    {"name": "Graphic Novels", "img": "assets/img/TheForgottenGuardians.jpg"},
-    {"name": "The End of Loneliness", "img": "assets/img/TheEndOfLoneliness.webp"},
-    {"name": "Graphic Novels", "img": "assets/img/NoMoreLies.jpg"}
+    {"name": "The Forgotten Guardians", "author": "Daniel Taylor", "img": "assets/img/TheForgottenGuardians.jpg"},
+    {"name": "The End of Loneliness", "author": "Benedict Wells", "img": "assets/img/TheEndOfLoneliness.webp"},
+    {"name": "No More Lies", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg"},
+    {"name": "Atomic Habit", "author": "James Clear", "img": "assets/img/AtomicHabit.png"},
+    {"name": "The Night Circus", "author": "Erin Morgenstern", "img": "assets/img/TheNightCircus.jpg"},
+    {"name": "Project Hail Mary", "author": "Andy Weir", "img": "assets/img/ProjectHailMary.jpg"},
+    {"name": "The Alchemist", "author": "Paulo Coelho", "img": "assets/img/TheAlchemist.webp"},
+    {"name": "Sapiens: A Brief History of Humankind", "author": "Yuval Noah Harari", "img":"assets/img/sapiens.jpg"},
+    {"name": "The Name of the Wind", "author": "Patrick Rothfuss", "img": "assets/img/TheNameOfTheWind.jpg"},
+    {"name": "The Power Of Now", "author": "Eckhart Tolle", "img": "assets/img/ThePowerOfNow.jpg"},
+    {"name": "Deep Work", "author": "Cal Newport", "img": "assets/img/DeepWork.jpg"},
+    {"name": "Circe", "author": "Madeline Miller", "img": "assets/img/Circe.jpg"},
   ];
 
   List recentArr = [
-    {"name": "Graphic Novels", "author": "Kerry Lonsdale", "img": "assets/img/TheForgottenGuardians.jpg"},
-    {"name": "The End of Loneliness", "author": "Kerry Lonsdale", "img": "assets/img/TheEndOfLoneliness.webp"},
-    {"name": "Graphic Novels", "author": "Kerry Lonsdale", "img": "assets/img/NoMoreLies.jpg"}
+    {"name": "Circe", "author": "Madeline Miller", "img": "assets/img/Circe.jpg"},
+    {"name": "Educated", "author": "Tara Westover", "img": "assets/img/Educated.jpg"},
+    {"name": "Becoming", "author": "Michelle Obama", "img": "assets/img/Becoming.jpg"},
+    {"name": "Dune", "author": "Frank Herbert", "img": "assets/img/Dune.webp"},
+    {"name": "The Catcher in the Rye", "author": "J.D. Salinger", "img": "assets/img/TheCatcherInTheRye.jpg"},
+    {"name": "1984", "author": "George Orwell", "img": "assets/img/1984.jpg"},
+    {"name": "The Great Gatsby", "author": "F. Scott Fitzgerald", "img": "assets/img/TheGreateGatsby.jpg"},
+    {"name": "The Hobbit", "author": "J.R.R. Tolkien", "img": "assets/img/TheHobbit.jpg"},
+    {"name": "Pride and Prejudice", "author": "Jane Austen", "img": "assets/img/PrideAndPrejudice.jpg"},
+    {"name": "To Kill a Mockingbird", "author": "Harper Lee", "img": "assets/img/ToKillAMockingbird.webp"}
   ];
 
   @override
@@ -132,8 +168,8 @@ class _HomeViewState extends State<HomeView> {
                 itemCount: bestArr.length,
                 itemBuilder: (context, index) {
                   var bObj = bestArr[index] as Map? ?? {};
-                  List<String> prices = ['19.99', '24.99', '15.99', '30.00', '22.50']; // Example static prices
-                  var price = prices[index % prices.length]; // Wrap around prices if there are more items than prices
+                  List<String> prices = ['19.99', '24.99', '15.99', '30.00', '22.50'];
+                  var price = prices[index % prices.length];
                   return GestureDetector(
                     onTap: () {},
                     child: Stack(
@@ -165,8 +201,17 @@ class _HomeViewState extends State<HomeView> {
                                 iconSize: 18,  // Smaller icon size
                                 icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
                                 onPressed: () {
-                                  // Handle add to cart action
+                                  Provider.of<CartProvider>(context, listen: false).addToCart({
+                                    'name': bObj['name'], // Correct key!
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Added to cart!'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
                                 },
+
                               ),
                             ),
                           ),
@@ -177,24 +222,12 @@ class _HomeViewState extends State<HomeView> {
                           child: Container(
                             width: 30,
                             height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
                             child: Center(
                               child: HeartButton(
-                                bookData: topPickArr[0], // Pass the first item of the array (or any item you'd like)
+                                // bookData: topPickArr[0], // Pass the first item of the array (or any item you'd like)
                               ),
+                            ),
                           ),
-                        ),
                         )
                       ],
                     ),
@@ -237,7 +270,15 @@ class _HomeViewState extends State<HomeView> {
                               iconSize: 18,  // Smaller icon size
                               icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
                               onPressed: () {
-                                // Handle add to cart action
+                                Provider.of<CartProvider>(context, listen: false).addToCart({
+                                  'name': bObj['name'],
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Added to cart!'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -285,7 +326,15 @@ class _HomeViewState extends State<HomeView> {
                               iconSize: 18,  // Smaller icon size
                               icon: Icon(Icons.add_shopping_cart, color: TColor.primary),
                               onPressed: () {
-                                // Handle add to cart action
+                                Provider.of<CartProvider>(context, listen: false).addToCart({
+                                  'name': bObj['name'],
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Added to cart!'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -353,11 +402,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+
 class HeartButton extends StatefulWidget {
-  final Map<String, dynamic> bookData; // Accept the map data
-
-  HeartButton({required this.bookData});
-
   @override
   _HeartButtonState createState() => _HeartButtonState();
 }
@@ -368,27 +414,15 @@ class _HeartButtonState extends State<HeartButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      iconSize: 18,
+      iconSize: 24,
       icon: Icon(
-        isFavorite ? Icons.favorite : Icons.favorite_border, // Filled heart when isFavorite is true
-        color: Colors.red,
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: isFavorite ? Colors.red : Colors.white,
       ),
       onPressed: () {
         setState(() {
-          isFavorite = !isFavorite; // Toggle the state of the heart
-          if (isFavorite) {
-            // Add to wishlist
-            wishlistItems.add(widget.bookData as WishlistItem); // Assuming wishlistItems is a list of maps
-          }
+          isFavorite = !isFavorite; // Toggle heart on/off
         });
-
-        // Optionally, navigate to wishlist page or show confirmation
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WishlistPage(wishlistItems: wishlistItems),
-          ),
-        );
       },
     );
   }

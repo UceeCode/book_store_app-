@@ -1,9 +1,13 @@
 class WishlistItem {
-  final String productId;
   final String name;
+  final String author;
   final String imageUrl;
+  final double rating;
 
-  WishlistItem({required this.productId, required this.name, required this.imageUrl});
+  WishlistItem({
+    required this.name,
+    required this.author,
+    required this.imageUrl,
+    required this.rating,
+  });
 }
-
-List<WishlistItem> wishlistItems = []; // List to store wishlist items

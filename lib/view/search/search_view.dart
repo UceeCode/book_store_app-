@@ -34,7 +34,47 @@ class _SearchViewState extends State<SearchView> {
       "price": 10.99,
       "popularity": 4.7,
       "releaseDate": DateTime(2021, 8, 3),
-    }
+    },
+    {
+      "name": "Sapiens: A Brief History of Humankind",
+      "author": "Benedict Wells",
+      "img": "assets/img/sapiens.jpg",
+      "price": 9.99,
+      "popularity": 4.5,
+      "releaseDate": DateTime(2016, 7, 10),
+    },
+    {
+      "name": "Atomic Habit",
+      "author": "James Clear",
+      "img": "assets/img/AtomicHabit.png",
+      "price": 5.99,
+      "popularity": 5.5,
+      "releaseDate": DateTime(2015, 3, 10),
+    },
+    {
+      "name": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "img": "assets/img/TheNightCircus.jpg",
+      "price": 11.99,
+      "popularity": 4.5,
+      "releaseDate": DateTime(2017, 6, 11),
+    },
+    {
+      "name": "Project Hail Mary",
+      "author": "Andy Weir",
+      "img": "assets/img/ProjectHailMary.jpg",
+      "price": 9.99,
+      "popularity": 4.5,
+      "releaseDate": DateTime(2019, 7, 10),
+    },
+    {
+      "name": "The Alchemist",
+      "author": "Paulo Coelho",
+      "img": "assets/img/TheAlchemist.webp",
+      "price": 9.99,
+      "popularity": 4.5,
+      "releaseDate": DateTime(2016, 7, 10),
+    },
   ];
 
   List<Map<String, dynamic>> filteredBooks = [];
@@ -82,7 +122,9 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Search Books')),
+      appBar: AppBar(title: Text('Search Books'),
+        automaticallyImplyLeading: false, // Removes the back icon
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

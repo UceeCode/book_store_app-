@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
-
 import '../color_extenstion.dart';
+import '../../models/cart_model.dart';
+import '../../providers/cart_provider.dart';
 
 class TopPicksCell extends StatelessWidget {
   final Map iObj;
@@ -57,7 +57,7 @@ class TopPicksCell extends StatelessWidget {
                 color: TColor.subTitle,
                 fontSize: 11,
               ),
-            )
+            ),
           ],
         ));
   }

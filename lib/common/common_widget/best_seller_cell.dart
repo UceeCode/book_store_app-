@@ -5,7 +5,8 @@ import '../color_extenstion.dart';
 
 class BestSellerCell extends StatelessWidget {
   final Map bObj;
-  final String price; // Add this line to accept price as a parameter
+  final String price;
+
 
   const BestSellerCell({super.key, required this.bObj, required this.price});
 
